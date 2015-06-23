@@ -62,9 +62,16 @@ li {
         margin-top: 0.5em;
     }
 
+    .rp,.ooc {
+        transition: font-size 0.5s ease 0.5;
+        transition: color 0.5s ease 0.5;
+    }
+
     .rp { 
         color: #DCDCCC;
         &.modified { color: #C4DCC4; }
+        transition: font-size 0.5s ease 0.5;
+        transition: color 0.5s ease 0.5;
     }
     .ooc { 
         color: #A0A090;
@@ -80,6 +87,11 @@ li {
 
         &:hover {
             text-decoration: underline;
+        }
+
+        &.disabled {
+            pointer-events: none;
+            cursor: default;
         }
     }
 }
