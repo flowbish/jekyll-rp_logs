@@ -16,6 +16,9 @@ module Jekyll
         attr :output_type
         attr :options
 
+        # Save line number(s) for modifying logs later
+        attr :line_numbers
+
         attr :last_merged_timestamp
 
         def initialize(timestamp, options = {}, sender:, contents:, flags:, type:, mode: ' ') 
@@ -29,6 +32,8 @@ module Jekyll
 
           @base_type = type
           @output_type = type
+
+          @line_numbers = []
 
           @options = options
 
@@ -53,7 +58,10 @@ module Jekyll
           title = @timestamp.strftime('%H:%M:%S %B %-d, %Y')
           # String actually displayed on page
           display = @timestamp.strftime('%H:%M')
-          ts_out = "<a name=\"#{anchor}\" title=\"#{title}\" href=\"##{anchor}\">#{display}</a>"
+          # Space seperated list of line number(s) for given line
+          lines = @line_numbers.join(' ')
+
+          ts_out = "<a name=\"#{anchor}\" title=\"#{title}\" href=\"##{anchor}\" line-numbers=\"#{lines}\">#{display}</a>"
 
           sender_out = nil
           case @base_type
@@ -102,6 +110,7 @@ module Jekyll
         def merge!(next_line)
           @contents += ' ' + next_line.contents
           @last_merged_timestamp = next_line.timestamp
+          @line_numbers += next_line.line_numbers
         end
 
         def inspect()

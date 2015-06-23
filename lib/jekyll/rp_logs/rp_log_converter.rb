@@ -129,10 +129,11 @@ module Jekyll
         options = get_options page
 
         compiled_lines = []
-        page.content.each_line { |raw_line| 
+        page.content.each_line.each_with_index { |raw_line, line_no| 
           page.data['format'].each { |format| 
             log_line = @@parsers[format].parse_line(raw_line, options)
             if log_line then
+              log_line.line_numbers << line_no
               compiled_lines << log_line 
               break
             end
