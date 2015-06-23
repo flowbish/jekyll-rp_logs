@@ -62,9 +62,13 @@ li {
         margin-top: 0.5em;
     }
 
-    .rp { color: #DCDCCC; }
+    .rp { 
+        color: #DCDCCC;
+        &.modified { color: #C4DCC4; }
+    }
     .ooc { 
         color: #A0A090;
+        &.modified { color: #A08D8D; }
         white-space: pre-wrap;
         font-family: monospace;
         font-size: 80%;
