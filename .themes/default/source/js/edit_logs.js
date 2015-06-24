@@ -3,30 +3,34 @@
     var toggleEdit = function(e) {
         var editing = $("#edit_toggle").is(":checked");
 
+        if (!$("#ooc_toggle").is(":checked")) {
+            $("#edit_toggle").attr("checked", false);
+            return;
+        }
+
         if (editing) {
             $(".ooc,.rp").click(function(e) {
-                var c = e.currentTarget;
-
+                var line = e.currentTarget;
 
                 // switch styling for selected line
-                if ($(c).hasClass('ooc')) {
-                    $(c).removeClass("ooc");
-                    $(c).addClass("rp");
+                if ($(line).hasClass('ooc')) {
+                    $(line).removeClass("ooc");
+                    $(line).addClass("rp");
                 }
                 else {
-                    $(c).removeClass("rp");
-                    $(c).addClass("ooc");
+                    $(line).removeClass("rp");
+                    $(line).addClass("ooc");
                 }
 
                 // add highlighting if modified
-                if ($(c).hasClass("modified")) {
-                    $(c).removeClass("modified");
+                if ($(line).hasClass("modified")) {
+                    $(line).removeClass("modified");
                 }
                 else {
-                    $(c).addClass("modified");
+                    $(line).addClass("modified");
                 }
 
-                var lines = $(c).children("a").attr("line-numbers").split(" ");
+                var lines = $(line).children("a").attr("line-numbers").split(" ");
                 console.log('Offset: ' + lines);
             });
 
@@ -53,7 +57,12 @@
             // to insert "!OOC" and "!RP" respectively
 
             $(".ooc,.rp").off("click");
+            
+            // re-enable anchors
             $(".ooc,.rp").children('a').removeClass('disabled');
+
+            // re-enable the menu on tap
+            $("#log").off("click");
         }
 
     };
