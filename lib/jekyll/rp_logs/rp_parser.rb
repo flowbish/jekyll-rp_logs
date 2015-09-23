@@ -3,6 +3,15 @@ module Jekyll
 
     class Parser
       FORMAT_STR = nil
+      FLAGS = /((?:![A-Z]+ )*)/
+
+      def flags(line)
+        flags = []
+        if FLAGS ~= line then
+          flags = $1
+        end 
+        flags
+      end
 
       class LogLine
         MAX_SECONDS_BETWEEN_POSTS = 3

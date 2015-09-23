@@ -5,6 +5,21 @@ require_relative 'rp_tags'
 module Jekyll
   module RpLogs
 
+    class RawLogPage < Jekyll::Page
+      def initialize(site, page)
+        @site = site
+        @base = site.source
+        @dir = page.cleaned_relative_path
+        @name = 'log.txt'
+
+        self.process(@name)
+        self.read_yaml(@base, page.path)
+        print "base: #{@base}\n"
+        print "dir: #{@dir}\n"
+        print "name: #{@name}\n"
+      end
+    end
+
     # Consider renaming since it is more of a converter in practice
     class RpLogGenerator < Jekyll::Generator
       safe true
@@ -90,6 +105,9 @@ module Jekyll
               # Add tag for canon/noncanon
               page.data['rp_tags'] << (Tag.new key)
               page.data['rp_tags'].sort!
+
+              # Add raw log to be generated
+              site.pages << RawLogPage.new(site, page)
 
               arc_name = page.data['arc_name']
               if arc_name then
